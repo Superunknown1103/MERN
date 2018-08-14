@@ -1,10 +1,21 @@
-const { GraphQLServer } = require('graphql-yoga')
+const { GraphQLServer } = require('graphql-yoga');
+const mongoose = require('mongoose');
 
 const typeDefs = `
   type Query {
     hello(name: String): String!
   }
 `
+
+mongoose.connect('mongodb://localhost/todos');
+
+// ToDo Model
+mongoose.connection.once('open', function() {
+  const Todo = mongoose.model('Todo', {
+    text: String,
+    complete: Boolean
+  })
+});
 
 const resolvers = {
   Query: {
