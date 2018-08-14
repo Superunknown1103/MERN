@@ -1,0 +1,23 @@
+{
+  "name": "MERN",
+  "version": "1.0.0",
+  "description": "��#\u0000M\u0000E\u0000R\u0000N\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Superunknown1103/MERN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Superunknown1103/MERN/issues"
+  },
+  "homepage": "https://github.com/Superunknown1103/MERN#readme",
+  "dependencies": {
+    "graphql-yoga": "^1.16.0"
+  }
+}
