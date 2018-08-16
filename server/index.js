@@ -9,6 +9,7 @@ const Todo = mongoose.model('Todo', {
 const typeDefs = `
   type Query {
     hello(name: String): String!
+    todos: [Todo]
   }
   type Todo {
     id: ID!
@@ -18,6 +19,7 @@ const typeDefs = `
   type Mutation {
     createTodo(text: String!): Todo 
     updateTodo(id: ID!, complete: Boolean!): Boolean
+    removeTodo(id: ID!): Boolean
   }
 
 `;
@@ -26,7 +28,8 @@ mongoose.connect('mongodb://localhost/todos');
 
 const resolvers = {
   Query: {
-    hello: (_, { name }) => `Hello ${name || 'World'}`,
+    hello: (_, { name }) => `Hello ${name || 'World '}`,
+    todos: () => Todo.find()
   },
   Mutation: {
     createTodo: async (_, { text }) => {
@@ -37,7 +40,11 @@ const resolvers = {
   updateTodo: async (_, {id, complete}) => {
     await Todo.findByIdAndUpdate(id, {complete});
     return true;
-  }
+  },
+  removeTodo: async  (_, { id }) => {
+    await Todo.findByIdAndRemove(id, { complete });
+    return true;
+  },
   }
 };
 
