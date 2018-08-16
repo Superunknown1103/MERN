@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,7 +8,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
+import CloseIcon from '@material-ui/icons/Close';
 
 const TodosQuery =  gql`
 {
@@ -20,10 +20,18 @@ const TodosQuery =  gql`
 }
 `;
 
+const UpdateMutation = gql`
+  mutation($id: ID!, $complete: Boolean!) {
+    updateTodo(id: $id, complete: $complete)
+  }
+`;
+
 class App extends Component {
-    handleToggle = todo => () => {
+    updateTodo = todo => {
      // update todo
-      
+    };
+    removeTodo = todo =>  {
+      // remove todo
     }
 
   render() {
@@ -42,7 +50,7 @@ class App extends Component {
               role={undefined}
               dense
               button
-              onClick={this.handleToggle(todo)}
+              onClick={() => this.updateTodo(todo)}
             >
               <Checkbox
                 checked={todo.complete}
@@ -51,8 +59,8 @@ class App extends Component {
               />
               <ListItemText primary={todo.text} />
               <ListItemSecondaryAction>
-                <IconButton aria-label="Comments">
-                  <CommentIcon />
+                <IconButton onClick = {() => this.removeTodo(todo)}>
+                  <CloseIcon />
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
@@ -67,4 +75,6 @@ class App extends Component {
        
 
 
-export default graphql(TodosQuery)(App);
+export default compose(
+  graphql(UpdateMutation),
+  graphql(TodosQuery))(App);
